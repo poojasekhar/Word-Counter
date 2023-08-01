@@ -45,3 +45,4 @@ jobs:
         with:
           message: "The word count step has failed. Please review the logs and try again."
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          
