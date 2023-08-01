@@ -28,7 +28,7 @@ jobs:
       - name: Create PR Comment
         uses: actions/github-script@v5
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.MY_GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
             const output = fs.readFileSync('wordcount.txt', 'utf8');
@@ -44,4 +44,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: "The word count step has failed. Please review the logs and try again."
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
