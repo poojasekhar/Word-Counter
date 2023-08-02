@@ -1,0 +1,48 @@
+name: Markdown Word Counter
+on: [pull_request]
+
+jobs:
+  count-words-on-markdown-file:
+    name: Count Words on Markdown File
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Word Count Calculation and Display
+        id: wordcount
+        run: |
+          echo "Counting words in markdown files..."
+          total_words=0
+          message=""
+          while IFS= read -r -d '' file
+          do
+            word_count=$(wc -w "$file" | awk '{print $1}')
+            total_words=$((total_words + word_count))
+            message+="File $file contains $word_count words"$'\n'
+          done < <(find ./courses -name "*.md" -print0)
+          message+="Total words in markdown files: $total_words"
+          echo -e "$message"
+          echo "$message" > wordcount.txt
+
+      - name: Create PR Comment
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.MY_GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('wordcount.txt', 'utf8');
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Handle Failure
+        if: ${{ failure() }}
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: "The word count step has failed. Please review the logs and try again."
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          
