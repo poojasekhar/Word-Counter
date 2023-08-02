@@ -17,9 +17,9 @@ Outline of the workflow:
 3. **Steps**: The workflow consists of four main steps: code checkout, word count calculation and display, creating a PR comment, and handling potential failures.
 
     - **[Code Checkout](https://github.com/poojasekhar/Markdown-Word-Counter/blob/5a2db0910361499be10f112441ca5efa17d5f9eb/.github/workflows/markdown-word-counter.yml#L9-L10):** This step uses `actions/checkout@v2` to check-out the repository. 
-    - **Word Count Calculation and Display:** This step iterates over all Markdown files within the `courses` directory and its subdirectories. For each file, it calculates the word count and prints it. It also keeps track of the total word count across all files and prints it at the end.
-    - **Create PR Comment:** This step uses `actions/github-script@v5` to create a comment on the pull request with the word count results.
-    - **Handle Failure:** This step handles any failure in the word count step and comments on the pull request about the failure.
+    - **[Word Count Calculation and Display:](https://github.com/poojasekhar/Markdown-Word-Counter/blob/2973118242d4d23d670d516b1dea4aca6d6489f8/.github/workflows/markdown-word-counter.yml#L12-L26):** This step iterates over all Markdown files within the `courses` directory and its subdirectories. For each file, it calculates the word count and prints it. It also keeps track of the total word count across all files and prints it at the end.
+    - **[Create PR Comment:](https://github.com/poojasekhar/Markdown-Word-Counter/blob/2973118242d4d23d670d516b1dea4aca6d6489f8/.github/workflows/markdown-word-counter.yml#L28-L40):** This step uses `actions/github-script@v5` to create a comment on the pull request with the word count results.
+    - **[Handle Failure:](https://github.com/poojasekhar/Markdown-Word-Counter/blob/2973118242d4d23d670d516b1dea4aca6d6489f8/.github/workflows/markdown-word-counter.yml#L42-L47):** This step handles any failure in the word count step and comments on the pull request about the failure.
 
 ## Workflow File
 
