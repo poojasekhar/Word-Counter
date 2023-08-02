@@ -16,66 +16,14 @@ Outline of the workflow:
 2. **Environment**: The workflow is run on the latest version of Ubuntu.
 3. **Steps**: The workflow consists of four main steps: code checkout, word count calculation and display, creating a PR comment, and handling potential failures.
 
-    - **Code Checkout:** This step uses `actions/checkout@v2` to access the content of the repository.
+    - **[Code Checkout](https://github.com/poojasekhar/Markdown-Word-Counter/blob/5a2db0910361499be10f112441ca5efa17d5f9eb/.github/workflows/markdown-word-counter.yml#L9-L10):** This step uses `actions/checkout@v2` to check-out the repository. 
     - **Word Count Calculation and Display:** This step iterates over all Markdown files within the `courses` directory and its subdirectories. For each file, it calculates the word count and prints it. It also keeps track of the total word count across all files and prints it at the end.
     - **Create PR Comment:** This step uses `actions/github-script@v5` to create a comment on the pull request with the word count results.
     - **Handle Failure:** This step handles any failure in the word count step and comments on the pull request about the failure.
 
 ## Workflow File
 
-The workflow file, `markdown-word-counter.yml`, resides in the repository's `.github/workflows` directory. 
-
-Here's the structure of the workflow:
-
-```yml
-name: Markdown Word Counter
-on: [pull_request]
-
-jobs:
-  count-words-on-markdown-file:
-    name: Count Words on Markdown File
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Word Count Calculation and Display
-        id: wordcount
-        run: |
-          echo "Counting words in markdown files..."
-          total_words=0
-          message=""
-          while IFS= read -r -d '' file
-          do
-            word_count=$(wc -w "$file" | awk '{print $1}')
-            total_words=$((total_words + word_count))
-            message+="File $file contains $word_count words"$'\n'
-          done < <(find ./courses -name "*.md" -print0)
-          message+="Total words in markdown files: $total_words"
-          echo -e "$message"
-          echo "$message" > wordcount.txt
-
-      - name: Create PR Comment
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.MY_GITHUB_TOKEN}}
-          script: |
-            const fs = require('fs');
-            const output = fs.readFileSync('wordcount.txt', 'utf8');
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-      - name: Handle Failure
-        if: ${{ failure() }}
-        uses: thollander/actions-comment-pull-request@v1
-        with:
-          message: "The word count step has failed. Please review the logs and try again."
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-```
+The workflow file, [markdown-word-counter.yml](.github/workflows/markdown-word-counter.yml), resides in the repository's `.github/workflows` directory. 
 
 ## How to Trigger the GitHub Action
 
