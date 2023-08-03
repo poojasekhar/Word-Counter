@@ -1,5 +1,5 @@
 name: Markdown Word Counter
-on: [pull_request]
+on: [pull_request] #Trigger the action on pull request events
 
 jobs:
   count-words-on-markdown-file:
@@ -15,12 +15,12 @@ jobs:
           echo "Counting words in markdown files..."
           total_words=0
           message=""
-          while IFS= read -r -d '' file
+          while IFS= read -r -d '' file #Iterate through each markdown file found 
           do
-            word_count=$(wc -w "$file" | awk '{print $1}')
+            word_count=$(grep -E '[[:alnum:]]' "$file" | wc -w) #Count only alphanumeric words in each file
             total_words=$((total_words + word_count))
             message+="File $file contains $word_count words"$'\n'
-          done < <(find ./courses -name "*.md" -print0)
+          done < <(find ./courses -name "*.md" -print0) #Find all markdown files in the "courses" directory and its subdirectories
           message+="Total words in markdown files: $total_words"
           echo -e "$message"
           echo "$message" > wordcount.txt
@@ -28,7 +28,7 @@ jobs:
       - name: Create PR Comment
         uses: actions/github-script@v5
         with:
-          github-token: ${{secrets.MY_GITHUB_TOKEN}}
+          github-token: ${{secrets.MY_GITHUB_TOKEN}} #Authentication token for accessing GitHub APIs
           script: |
             const fs = require('fs');
             const output = fs.readFileSync('wordcount.txt', 'utf8');
@@ -39,10 +39,11 @@ jobs:
               body: output
             })
 
-      - name: Handle Failure
-        if: ${{ failure() }}
+      - name: Handle Failure #This step will run if any previous step fails
+        if: ${{ failure() }} 
         uses: thollander/actions-comment-pull-request@v1
         with:
-          message: "The word count step has failed. Please review the logs and try again."
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          message: "The word count action has failed. Please review the logs and try again."
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} 
           
+  
