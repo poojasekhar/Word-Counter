@@ -46,3 +46,4 @@ jobs:
           message: "The word count action has failed. Please review the logs and try again."
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} 
           
+  
