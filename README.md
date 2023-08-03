@@ -38,11 +38,11 @@ Upon completion of the GitHub Action, it will provide output in the GitHub Actio
 
 After a Pull Request has triggered the GitHub Action:
 
-1. Navigate to the Actions tab in your GitHub repository.
-2. Click on the Markdown Word Counter Action from the workflow list.
+1. Navigate to the 'Actions tab' in your GitHub repository.
+2. Click on the 'Markdown Word Counter Action' from the workflow list.
 3. Choose the workflow run from the list which corresponds to your recent Pull Request.
-4. Under Jobs, click on the count-words-on-markdown-file job to view the details.
-5. The Word Count Calculation and Display step will display the word counts. Here, you will see the number of words in each Markdown file as well as the total word count across all Markdown files in the courses directory and its subdirectories.
+4. Under 'Jobs', click on the 'count-words-on-markdown-file' job to view the details.
+5. The 'Word Count Calculation and Display' step will display the word counts. Here, you will see the number of words in each Markdown file as well as the total word count across all Markdown files in the 'courses directory' and its subdirectories.
 
 Moreover, upon completion of the GitHub Action, it will comment on the pull request with the detailed word count of each Markdown file and the total word count. This comment can be viewed directly in your pull request's 'Conversation' tab. This allows for easy access to the results without the need to navigate through the GitHub Action logs.
 
