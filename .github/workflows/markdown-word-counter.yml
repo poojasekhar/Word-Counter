@@ -26,7 +26,7 @@ jobs:
           echo "$message" > wordcount.txt
 
       - name: Create PR Comment
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{secrets.MY_GITHUB_TOKEN}} #Authentication token for accessing GitHub APIs
           script: |
